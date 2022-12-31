@@ -8,6 +8,7 @@ There are a couple of settings that can optionally be passed into the action as 
 indicator - ID of an element that should be within the container and be absolute positioned. This element will serve as an indicator of the scroll and is to be styled by you. Default: empty (no indicator will appear)
 useWheel - True if you wish to have some basic scroll wheel support. Default: true.
 
+![Example](public/sample.png)
 
 ```html
 <script>
