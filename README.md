@@ -15,13 +15,13 @@ useWheel - True if you wish to have some basic scroll wheel support. Default: tr
     import { kineticscroll } from './kineticscroll.js';
 
     let configs = {
-        indicator: ''
+        indicator: 'littlebar'
     }
 </script>
 
 <section>
     <div class="container">
-        <div id="indic"></div>
+        <div id="littlebar"></div>
         <ul use:kineticscroll={configs}>
             {#each countries as country}
                 <li><img src="./flags/{country.code.toLowerCase()}.png" loading="lazy" alt="{country.name}" /><span>{country.name}</span></li>
@@ -31,7 +31,7 @@ useWheel - True if you wish to have some basic scroll wheel support. Default: tr
 </section>
 
 <style>
-    #indic {
+    #littlebar {
         position: absolute;
         left: 1px;
         width: 6px;
