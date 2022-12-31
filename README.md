@@ -28,7 +28,7 @@ useWheel - True if you wish to have some basic scroll wheel support. Default: tr
             {/each}
         </ul>        
     </div>
-</section>
+</section> 
 
 <style>
     #littlebar {
