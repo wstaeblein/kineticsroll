@@ -5,8 +5,9 @@ Simple Svelte action to transform a container into a momentum scroller, much lik
 
 There are a couple of settings that can optionally be passed into the action as an object with any of the following properties:
 
-indicator - ID of an element that should be within the container and be absolute positioned. This element will serve as an indicator of the scroll and is to be styled by you. Default: empty (no indicator will appear)
-useWheel - True if you wish to have some basic scroll wheel support. Default: true.
+- **indicator** - ID of an element that should be within the container and be absolute positioned. This element will serve as an indicator of the scroll and is to be styled by you. Default: empty (no indicator will appear)
+
+- **useWheel** - True if you wish to have some basic scroll wheel support. Default: true.
 
 ![Example](public/sample.png)
 

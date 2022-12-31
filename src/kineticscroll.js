@@ -1,8 +1,6 @@
 
-/* configs: {
-    indicator --> ID to a absolute positioned element inside the container. Container should be relative or absolute positioned. If not, this action will set it's position to relative
-    useWheel --> If true basic mouse wheel support will be supported
-} */
+// Svelte action to transform a container into a momentum scroller
+// By Walter Staeblein - 2022
 export function kineticscroll(node, cfgs) {
     'use strict';
 
