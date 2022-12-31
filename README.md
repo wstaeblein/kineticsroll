@@ -26,7 +26,10 @@ There are a couple of settings that can optionally be passed into the action as 
         <div id="littlebar"></div>
         <ul use:kineticscroll={configs}>
             {#each countries as country}
-                <li><img src="./flags/{country.code.toLowerCase()}.png" loading="lazy" alt="{country.name}" /><span>{country.name}</span></li>
+                <li>
+                    <img src="./flags/{country.code.toLowerCase()}.png" loading="lazy" alt="{country.name}" />
+                    <span>{country.name}</span>
+                </li>
             {/each}
         </ul>        
     </div>
