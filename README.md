@@ -1,13 +1,15 @@
 # Svelte Kinetic Scroll
 
 
-Simple Svelte action to transform a container into a momentum scroller, much like cellphones touch screens work. Drop the action and start dragging around with your mouse.
+Simple Svelte action to transform a container into a vertical momentum scroller, much like cellphones touch screens work when you tap and drag. Drop the action and start dragging around with your mouse or finger.
 
-There are a couple of settings that can optionally be passed into the action as an object with any of the following properties:
+There are a few settings that can optionally be passed into the action as an object with any of the following properties:
 
 - **indicator** - ID of an element that should be within the container and be absolute positioned. This element will serve as an indicator of the scroll and is to be styled by you. Default: empty (no indicator will appear)
 
 - **useWheel** - True if you wish to have some basic scroll wheel support. Default: true.
+
+- **snap** - If true scrolling will end at the closest element border. Only works properly if all elements in the list are the same height. Default: false.
 
 ![Example](public/sample.png)
 

@@ -11,10 +11,13 @@ export function kineticscroll(node, cfgs) {
     let offset = 0;
     let min = 0;
     let pressed = false;
-    let defaultConfigs = { indicator: '', useWheel: true };
+    let wheeling = false;
+    let defaultConfigs = { indicator: '', useWheel: true, snap: false };
     let configs = {...defaultConfigs, ...cfgs};
     let indicator = configs.indicator ? document.getElementById(configs.indicator) : null;
     let timeConstant = 325; 
+    let snapHeight = configs.snap ? getElementFullHeight(node.children[0]) : 1;
+    let wheelTicker = 0;
 
     if (indicator) {
         let pos = getComputedStyle(parent).position;
@@ -27,11 +30,11 @@ export function kineticscroll(node, cfgs) {
 
 
     if (typeof window.ontouchstart !== 'undefined') {
-        node.addEventListener('touchstart', tap);
+        node.addEventListener('touchstart', start);
         node.addEventListener('touchmove', drag);
         node.addEventListener('touchend', release);
     }
-    node.addEventListener('mousedown', tap);
+    node.addEventListener('mousedown', start);
     node.addEventListener('mousemove', drag);
     node.addEventListener('mouseup', release);
     if (configs.useWheel) { node.addEventListener('wheel', wheel); }
@@ -45,6 +48,8 @@ export function kineticscroll(node, cfgs) {
         // touch event
         if (e.targetTouches && (e.targetTouches.length >= 1)) {
             return e.targetTouches[0].clientY;
+        } else if (e.deltaY) {
+            return e.deltaY
         }
 
         // mouse event
@@ -58,15 +63,15 @@ export function kineticscroll(node, cfgs) {
     }
 
     function track() {
-        var now, elapsed, delta, v;
 
-        now = Date.now();
-        elapsed = now - timestamp;
+        let now = Date.now();
+        let elapsed = now - timestamp;
         timestamp = now;
-        delta = offset - frame;
+
+        let delta = offset - frame;
         frame = offset;
 
-        v = 1000 * delta / (1 + elapsed);
+        let v = 1000 * delta / (1 + elapsed);
         velocity = 0.8 * v + 0.2 * velocity;
     }
 
@@ -85,22 +90,36 @@ export function kineticscroll(node, cfgs) {
         }
     }
 
-    function wheel(e) {
+    function wheel(e) {console.log(e)
         var y, delta;
+
+        if (wheelTicker) { 
+            clearTimeout(wheelTicker); 
+        } else { 
+            track(); 
+            start(e, true);
+        }
 
         y = ypos(e);
         delta = event.deltaY;
-        if (delta > 2 || delta < -2) {
-            reference = y;
-            scroll(offset + delta);
-        }
+        reference = y;
+        let total = offset + delta;
+        let amount = configs.snap ? Math.round(total / snapHeight) * snapHeight : total; 
+        scroll(amount);
+     
+        wheelTicker = setTimeout(function() {
+            clearTimeout(wheelTicker);
+            wheelTicker = 0;
+            release(e);
+        }, 60);
+
         e.preventDefault();
         e.stopPropagation();
         return false;        
     }
 
-    function tap(e) {
-        pressed = true;
+    function start(e, isWheel) {
+        if (isWheel) { wheeling = true; } else { pressed = true; }
         reference = ypos(e);
 
         velocity = amplitude = 0;
@@ -132,14 +151,16 @@ export function kineticscroll(node, cfgs) {
 
     function release(e) {
         pressed = false;
+        wheeling = false;
         clearInterval(ticker);
 
-        if (velocity > 10 || velocity < -10) {
+        if (velocity > 10 || velocity < -10 || configs.snap) { 
             amplitude = 0.8 * velocity;
             target = Math.round(offset + amplitude);
+            if (configs.snap) { target = Math.round(target / snapHeight) * snapHeight; }
             timestamp = Date.now();
             requestAnimationFrame(autoScroll);
-        }
+        } 
         e.preventDefault();
         e.stopPropagation();
         return false;
@@ -148,14 +169,14 @@ export function kineticscroll(node, cfgs) {
     return {
 		destroy() {
             if (typeof window.ontouchstart !== 'undefined') {
-                node.removeEventListener('touchstart', tap);
+                node.removeEventListener('touchstart', start);
                 node.removeEventListener('touchmove', drag);
                 node.removeEventListener('touchend', release);
             }
-            node.removeEventListener('mousedown', tap);
+            node.removeEventListener('mousedown', start);
             node.removeEventListener('mousemove', drag);
             node.removeEventListener('mouseup', release);
-            if (configs.useWheel) { node.removeEventListener('wheel', wheel); }
+            if (configs.useWheel) { node.removeEventListener('wheel', wheel, { passive: false }); }
 		}
 	}
 };

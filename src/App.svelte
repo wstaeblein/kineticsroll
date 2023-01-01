@@ -8,10 +8,11 @@ console.log(countries)
 <main>
 	<h1>Kinetic Scroll</h1>
     <h3>Example</h3>
-    <p>Drag vertically through the list of countries and territories<br>below to check the action behaviour</p>
+    <p>Drag vertically or mousewheel through the list of countries<br>and territories below to check the action behaviour</p>
     <div class="container">
         <div id="indic"></div>
-        <ul use:kineticscroll={{ indicator: 'indic'}}>
+        <div class="visor"></div>
+        <ul use:kineticscroll={{ indicator: 'indic', snap: true }}>
             {#each countries as country}
                 <li><img src="./flags/{country.code.toLowerCase()}.png" loading="lazy" alt="{country.name}" /><span>{country.name}</span></li>
             {/each}
@@ -21,6 +22,16 @@ console.log(countries)
 </main>
 
 <style>
+    .visor {
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: 159px;
+        height: 53px;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 11;
+        pointer-events: none;
+    }
     #indic {
         position: absolute;
         left: 1px;
@@ -40,6 +51,7 @@ console.log(countries)
         margin: auto;
         height: 400px;
         overflow: hidden;
+        transform: scale(1);
     }
     ul {
         width: fit-content;
