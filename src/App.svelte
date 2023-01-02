@@ -11,7 +11,6 @@ console.log(countries)
     <p>Drag vertically or mousewheel through the list of countries<br>and territories below to check the action behaviour</p>
     <div class="container">
         <div id="indic"></div>
-        <div class="visor"></div>
         <ul use:kineticscroll={{ indicator: 'indic', snap: true }}>
             {#each countries as country}
                 <li><img src="./flags/{country.code.toLowerCase()}.png" loading="lazy" alt="{country.name}" /><span>{country.name}</span></li>
@@ -22,16 +21,7 @@ console.log(countries)
 </main>
 
 <style>
-    .visor {
-        position: fixed;
-        left: 0;
-        right: 0;
-        top: 159px;
-        height: 53px;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 11;
-        pointer-events: none;
-    }
+
     #indic {
         position: absolute;
         left: 1px;
