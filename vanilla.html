@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Kinetic Scroll - Vanilla JS</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="global.css" rel="stylesheet">
+
+        <style>
+            #indic {
+                position: absolute;
+                left: 1px;
+                width: 6px;
+                height: 20px;
+                background-color: #ff3e00;
+                z-index: 1;
+            }
+
+            small {
+                font-size: 16px;
+            }            
+        
+            p {
+                text-align: center;
+                margin: 0 0 1em;
+            }
+            .container {
+                border: 1px solid #eee;
+                width: fit-content;
+                margin: auto;
+                height: 400px;
+                overflow: hidden;
+                transform: scale(1);
+            }
+            ul {
+                width: fit-content;
+                text-align: left;
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                background-color: #fafafa;
+            }
+        
+            ul > li {
+                padding: 10px 10px 10px 16px;
+                border-bottom: 1px solid #eee;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+        
+            ul > li > img {
+                width: 40px;
+                height: 32px;
+                object-fit: contain;
+            }
+        
+            ul > li:last-child {
+                border-bottom: none;
+            }
+        
+        
+        
+            h1 {
+                color: #ff3e00;
+                text-transform: uppercase;
+                font-size: 4em;
+                font-weight: 100;
+                text-align: center;
+                margin: 1rem 0 0 0;
+            }
+
+            h2 {
+                color: #ff3e00;
+                text-transform: uppercase;
+                font-size: 1.5em;
+                font-weight: 100;
+                text-align: center;
+                margin: 0;                
+            }
+        
+            h3 {
+                margin: 0 0 1em;
+                text-align: center;
+                text-transform: uppercase;
+            }
+        
+            @media (min-width: 640px) {
+                main {
+                    max-width: none;
+                }
+            }
+        </style>        
+    </head>
+    <body>
+    	<h1>Kinetic Scroll</h1>
+        <h2>Vanilla JS Version &nbsp; &nbsp;<a href="./index.html"><small>Svelte Version</small></a></h2>
+        <br>
+        <h3>Example</h3>
+        <p>Drag vertically or mousewheel through the list of countries<br>and territories below to check the action behaviour</p>
+
+        <div class="container">
+            <div id="indic"></div>
+            <ul></ul>        
+        </div>        
+
+        <br><br>
+    </body>
+
+    <script type="module" src="./countries.js"></script>
+    <script type="module" src="./kineticscroll.js"></script>
+
+    <script type="module">
+           import countries from './countries.js';
+           import { kineticscroll } from './kineticscroll.js';
+
+        document.addEventListener('DOMContentLoaded', async function(event) {
+            let list = document.querySelector('.container > ul');
+
+            countries.forEach(country => {
+                let li = document.createElement('li');
+                let img = document.createElement('img');
+                let span = document.createElement('span');
+
+                img.setAttribute('src', `./flags/${country.code.toLowerCase()}.png`);
+                img.setAttribute('loading', 'lazy');
+                img.setAttribute('alt', country.name);
+                span.textContent = country.name;
+
+                li.appendChild(img);
+                li.appendChild(span);
+                list.appendChild(li);
+            });
+            kineticscroll(list, { indicator: 'indic', snap: true });
+        });
+    </script>
+</html>
