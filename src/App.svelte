@@ -1,12 +1,12 @@
 <script>
-    import countries from './countries.js';
-    import { kineticscroll } from './kineticscroll.js';
-
-console.log(countries)
+    import countries from '../public/countries.js';
+    import { kineticscroll } from '../public/kineticscroll.js';
 </script>
 
 <main>
 	<h1>Kinetic Scroll</h1>
+    <h2>Svelte Version &nbsp; &nbsp;<a href="./vanilla.html"><small>Vanilla JS Version</small></a></h2>
+    <br>
     <h3>Example</h3>
     <p>Drag vertically or mousewheel through the list of countries<br>and territories below to check the action behaviour</p>
     <div class="container">
@@ -29,6 +29,10 @@ console.log(countries)
         height: 20px;
         background-color: #ff3e00;
         z-index: 1;
+    }
+
+    small {
+        font-size: 16px;
     }
 
     p {
@@ -80,6 +84,15 @@ console.log(countries)
         text-align: center;
         margin: 1rem 0 0 0;
 	}
+
+    h2 {
+        color: #ff3e00;
+        text-transform: uppercase;
+        font-size: 1.5em;
+        font-weight: 100;
+        text-align: center;
+        margin: 0;                
+    }    
 
     h3 {
         margin: 0 0 1em;

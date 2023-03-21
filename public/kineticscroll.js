@@ -90,7 +90,7 @@ export function kineticscroll(node, cfgs) {
         }
     }
 
-    function wheel(e) {console.log(e)
+    function wheel(e) {
         var y, delta;
 
         if (wheelTicker) { 
