@@ -37,6 +37,7 @@ export function kineticscroll(node, cfgs) {
     node.addEventListener('mousedown', start);
     node.addEventListener('mousemove', drag);
     node.addEventListener('mouseup', release);
+    node.addEventListener('mouseleave', release);
     if (configs.useWheel) { node.addEventListener('wheel', wheel); }
 
     function getElementFullHeight(ele) {
@@ -63,7 +64,6 @@ export function kineticscroll(node, cfgs) {
     }
 
     function track() {
-
         let now = Date.now();
         let elapsed = now - timestamp;
         timestamp = now;
