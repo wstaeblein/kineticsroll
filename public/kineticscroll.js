@@ -37,7 +37,7 @@ export function kineticscroll(node, cfgs) {
     node.addEventListener('mousedown', start);
     node.addEventListener('mousemove', drag);
     node.addEventListener('mouseup', release);
-    node.addEventListener('mouseleave', release);
+    node.addEventListener('mouseleave', preRelease);
     if (configs.useWheel) { node.addEventListener('wheel', wheel); }
 
     function getElementFullHeight(ele) {
@@ -147,6 +147,10 @@ export function kineticscroll(node, cfgs) {
         e.preventDefault();
         e.stopPropagation();
         return false;
+    }
+
+    function preRelease(e) {
+        if (e.buttons == 1) { release(e); }
     }
 
     function release(e) {
