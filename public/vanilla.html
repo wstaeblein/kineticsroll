@@ -3,6 +3,7 @@
     <head>
         <title>Kinetic Scroll - Vanilla JS</title>
         <meta charset="UTF-8">
+        <link rel="icon" type="image/png" href="./favicon.png">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="global.css" rel="stylesheet">
 
@@ -24,6 +25,7 @@
                 text-align: center;
                 margin: 0 0 1em;
             }
+
             .container {
                 border: 1px solid #eee;
                 width: fit-content;
@@ -32,6 +34,7 @@
                 overflow: hidden;
                 transform: scale(1);
             }
+
             ul {
                 width: fit-content;
                 text-align: left;
@@ -47,8 +50,14 @@
                 display: flex;
                 align-items: center;
                 gap: 10px;
+                transition: background-color 0.4s ease;
+                cursor: pointer;
             }
-        
+
+            ul > li.sel {
+                background-color: #fff;
+            }
+
             ul > li > img {
                 width: 40px;
                 height: 32px;
@@ -58,8 +67,6 @@
             ul > li:last-child {
                 border-bottom: none;
             }
-        
-        
         
             h1 {
                 color: #ff3e00;
@@ -86,9 +93,7 @@
             }
         
             @media (min-width: 640px) {
-                main {
-                    max-width: none;
-                }
+                main { max-width: none; }
             }
         </style>        
     </head>
@@ -114,13 +119,19 @@
            import countries from './countries.js';
            import { kineticscroll } from './kineticscroll.js';
 
+           let selected = '';
+           let list;
+
         document.addEventListener('DOMContentLoaded', async function(event) {
-            let list = document.querySelector('.container > ul');
+            list = document.querySelector('.container > ul');
 
             countries.forEach(country => {
                 let li = document.createElement('li');
                 let img = document.createElement('img');
                 let span = document.createElement('span');
+
+                li.setAttribute('code', country.code.toLowerCase());
+                li.addEventListener('click', handleClick);
 
                 img.setAttribute('src', `./flags/${country.code.toLowerCase()}.png`);
                 img.setAttribute('loading', 'lazy');
@@ -133,5 +144,11 @@
             });
             kineticscroll(list, { indicator: 'indic', snap: true });
         });
+
+        function handleClick(e) { 
+            e.stopPropagation();
+            [...list.querySelectorAll('li')].forEach(ele => ele.classList.remove('sel'));
+            e.currentTarget.classList.add('sel');
+        }
     </script>
 </html>

@@ -1,6 +1,8 @@
 <script>
     import countries from '../public/countries.js';
     import { kineticscroll } from '../public/kineticscroll.js';
+
+    let selected = '';
 </script>
 
 <main>
@@ -13,7 +15,10 @@
         <div id="indic"></div>
         <ul use:kineticscroll={{ indicator: 'indic', snap: true }}>
             {#each countries as country}
-                <li><img src="./flags/{country.code.toLowerCase()}.png" loading="lazy" alt="{country.name}" /><span>{country.name}</span></li>
+                <li on:click={() => selected = country.code} class:sel={selected == country.code}>
+                    <img src="./flags/{country.code.toLowerCase()}.png" loading="lazy" alt="{country.name}" />
+                    <span>{country.name}</span>
+                </li>
             {/each}
         </ul>        
     </div>
@@ -21,7 +26,6 @@
 </main>
 
 <style>
-
     #indic {
         position: absolute;
         left: 1px;
@@ -39,6 +43,7 @@
         text-align: center;
         margin: 0 0 1em;
     }
+    
     .container {
         border: 1px solid #eee;
         width: fit-content;
@@ -47,6 +52,7 @@
         overflow: hidden;
         transform: scale(1);
     }
+
     ul {
         width: fit-content;
         text-align: left;
@@ -62,9 +68,15 @@
         display: flex;
         align-items: center;
         gap: 10px;
+        cursor: pointer;
+        transition: background-color 0.4s ease;
     }
 
-    ul > li > img {
+    ul > li.sel {
+        background-color: #fff;
+    }
+
+    ul > li img {
         width: 40px;
         height: 32px;
         object-fit: contain;
@@ -73,8 +85,6 @@
     ul > li:last-child {
         border-bottom: none;
     }
-
-
 
 	h1 {
 		color: #ff3e00;
@@ -101,8 +111,6 @@
     }
 
 	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
+		main { max-width: none; }
 	}
 </style>

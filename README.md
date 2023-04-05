@@ -96,6 +96,10 @@ This action expects that a container has a fixed height and a direct child that 
 This is so simple that it doesn't need a NPM package. Just copy the file ``/src/kineticscroll.js`` to your project's appropriate folder and import it where needed. All other files are just there for the sake of the example.
 
 
+## Notes
+
+To avoid problems with underlying click events, this class temporarily suspends pointer events on the container element's children. This is done via the pointer-events CSS selector. You may experience some problems should you be manipulating this selector on your container's children and using this class at the same time. The class will do a pointer-events: 'none' when a drag has moved and a pointer-events: 'auto' at the mouseup event.
+
 ## Example
 
 Download this code, extract it and run:

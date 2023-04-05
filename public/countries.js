@@ -183,7 +183,7 @@ const countries = [
     {name: 'Reunion', code: 'RE'}, 
     {name: 'Romania', code: 'RO'}, 
     {name: 'Russian Federation', code: 'RU'}, 
-    {name: 'RWANDA', code: 'RW'}, 
+    {name: 'Rwanda', code: 'RW'}, 
     {name: 'Saint Helena', code: 'SH'}, 
     {name: 'Saint Kitts and Nevis', code: 'KN'}, 
     {name: 'Saint Lucia', code: 'LC'}, 

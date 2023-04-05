@@ -1,5 +1,5 @@
 
-// Svelte action to transform a container into a momentum scroller
+// Vanilla JS module and Svelte action to transform a container into a momentum scroller
 // By Walter Staeblein - 2022
 export function kineticscroll(node, cfgs) {
     'use strict';
@@ -122,6 +122,7 @@ export function kineticscroll(node, cfgs) {
         if (isWheel) { wheeling = true; } else { pressed = true; }
         reference = ypos(e);
 
+        node.style.cursor = 'ns-resize';
         velocity = amplitude = 0;
         frame = offset;
         timestamp = Date.now();
@@ -139,9 +140,11 @@ export function kineticscroll(node, cfgs) {
         if (pressed) {
             y = ypos(e);
             delta = reference - y; 
-            if (delta > 2 || delta < -2) {
+            if (Math.abs(delta) > 5) {
                 reference = y;
                 scroll(offset + delta);
+
+                Array.from(node.children).forEach((ele) => { ele.style.pointerEvents = 'none' });
             }
         }
         e.preventDefault();
@@ -150,10 +153,15 @@ export function kineticscroll(node, cfgs) {
     }
 
     function preRelease(e) {
+        e.stopPropagation();
+        e.preventDefault();
         if (e.buttons == 1) { release(e); }
     }
 
     function release(e) {
+        e.stopPropagation();
+        e.preventDefault();
+
         pressed = false;
         wheeling = false;
         clearInterval(ticker);
@@ -166,7 +174,10 @@ export function kineticscroll(node, cfgs) {
             requestAnimationFrame(autoScroll);
         } 
         e.preventDefault();
-        e.stopPropagation();
+        e.stopPropagation(); 
+
+        Array.from(node.children).forEach((ele) => { ele.style.pointerEvents = 'auto' });
+        node.style.cursor = 'auto';
         return false;
     }
 
